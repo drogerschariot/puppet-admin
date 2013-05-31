@@ -1,38 +1,77 @@
-# Class: ${username}
+# sudoer
+#-------
+# Creates a sudoer
 # 
-# Creates sudoer user ${username} with public keys
+# Params
+#-------
+#	[username] String
+#		The username of the sudoer to be created.
+#
+#	[password] String
+#		Must be SHA512 hash. You can do this by running the 
+#		'mkpasswd -m sha-512' command.
+#
+#	[ssh_key] String, Optional
+#		SSH public key. If defined, the public key will be installed in
+#		$home/.ssh/authorized_keys.
+#
+#	[no_sudopass] Boolean, Optional
+#		If set to true, you will not have to type a password when
+#		you run `sudo <command>
+#	 
+#	[uid] Int, Optional (Kinda)
+#		The uid that will be assigned to the user. The default is 600
+#		but really should be defined.
+#
+#	[shell] String, Optional
+#		Path to the shell you would like the user to use, default is bash
+#
+#	[home] String, Optional
+#		Path to home directory for user, default is /home/<username>
+#
+#	[groups] Array[Strings], Optional
+#		An array of groups the user will belong too.
+#
+#	[sudo_template] Template
+#		The template to use for the sudoer that will be saved to 
+#		/etc/sudoer.d . You do not need to supply your own template,
+#		but can if you want.
+# Usage
+#------
+# admin::sudoer {
+#	username 	=> "foo",
+#	password	=> "somesha512hash!",
+#	groups		=> [ "admins", "users"],
+#	no_sudopass	=> true,
+#	
+# }
 
-define add_sudoer ( $username = $title, 
-					$ssh_key = undef, 
-					$password = undef, 
-					$no_sudopass = false,
-					$uid = undef, 
-					$bash = '/bin/bash',
-					$home = "/home/${username}" ) {
 
-	case $operatingsystem {
-		Ubuntu: {
-			$groups = [ "adm", "cdrom", "sudo", "dip", "lpadmin", "sambashare" ]
-			$sudo_temp = 'sudo-ubuntu.erb'
-		}
-		Debian: {
-			$groups = [ "cdrom", "sudo" ]
-			$sudo_temp = 'sudo-debian.erb'
-		}
-		CentOS: {
-			$groups = [ "wheel" ]
-			$sudo_temp = 'sudo-centos.erb'
-		}
-		default: {
-			$groups = undef
-		}
+define sudoer ( 
+	$username = $title, 
+	$ssh_key = undef, 
+	$password = undef, 
+	$no_sudopass = false,
+	$uid = '600', # this really should be defined 
+	$shell = '/bin/bash',
+	$home = "/home/${username}",
+	$groups = undef,
+	$sudo_template = admin::params::sudo_template ) {
+
+	
+	### Check Variables ###
+
+	if ($username == undef) or ($password == undef){
+		fail("Username and/or password are not defined!")
 	}
 
+	### Create Sudoer ###
+
 	user { "${username}":
-		comment 	=> "${username} sudoer",
+		comment 	=> "${username} is a sudoer",
 		home 		=> $home,
 		ensure 		=> present,
-		shell 		=> $bash,
+		shell 		=> $shell,
 		uid 		=> $uid,
 		gid			=> $username,
 		groups		=> $groups,
@@ -55,7 +94,7 @@ define add_sudoer ( $username = $title,
 
 	file { "/etc/sudoers.d/${username}":
 		ensure 	=> file,
-		content	=> template("add_sudoer/${sudo_temp}"),
+		content	=> template("add_sudoer/${sudo_template}"),
 		mode	=> 0640,
 		owner	=> 'root',
 		group   => 'root',
