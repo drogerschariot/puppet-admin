@@ -1,0 +1,7 @@
+<% if no_sudopass == true -%>
+<%= username -%> ALL=NOPASSWD:ALL
+
+<% else -%>
+<%= username -%> ALL=(ALL:ALL) ALL
+
+<% end -%>
