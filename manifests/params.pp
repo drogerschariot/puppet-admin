@@ -1,4 +1,5 @@
-case $operatingsystem {
+class admin::params {
+case $::operatingsystem {
 		'Ubuntu': {
 			$sudo_template = 'sudo-ubuntu.erb'
 		}
@@ -12,3 +13,5 @@ case $operatingsystem {
 			fail("Cannot match your environment!")
 		}
 	}
+
+}

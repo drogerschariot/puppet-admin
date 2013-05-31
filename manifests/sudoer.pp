@@ -55,10 +55,25 @@ define admin::sudoer (
 	$uid = '600', # this really should be defined 
 	$shell = '/bin/bash',
 	$home = "/home/${username}",
-	$groups = undef,
-	$sudo_template = $admin::params::sudo_template ) {
-
+	$groups = undef){
 	
+
+	### define which template to use ###
+	case $operatingsystem {
+		'Ubuntu': {
+			$sudo_template = 'sudo-ubuntu.erb'
+		}
+		'Debian': {
+			$sudo_template = 'sudo-debian.erb'
+		}
+		'CentOS': {
+			$sudo_template = 'sudo-centos.erb'
+		}
+		default: {
+			fail("Cannot match your environment!")
+		}
+	}
+
 	### Check Variables ###
 
 	if ($username == undef) or ($password == undef){
