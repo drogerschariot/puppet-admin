@@ -94,7 +94,7 @@ define admin::sudoer (
 
 	file { "/etc/sudoers.d/${username}":
 		ensure 	=> file,
-		content	=> template("add_sudoer/${sudo_template}"),
+		content	=> template("admin/${sudo_template}"),
 		mode	=> 0640,
 		owner	=> 'root',
 		group   => 'root',
