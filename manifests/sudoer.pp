@@ -5,7 +5,8 @@
 # Params
 #-------
 #	[username] String
-#		The username of the sudoer to be created.
+#		The username of the sudoer to be created. The  $title will
+#		be asigned to the $username
 #
 #	[password] String
 #		Must be SHA512 hash. You can do this by running the 
@@ -38,8 +39,7 @@
 #		but can if you want.
 # Usage
 #------
-# admin::sudoer {
-#	username 	=> "foo",
+# admin::sudoer { "foo"
 #	password	=> "somesha512hash!",
 #	groups		=> [ "admins", "users"],
 #	no_sudopass	=> true,
