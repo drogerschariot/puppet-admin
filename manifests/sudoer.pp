@@ -56,7 +56,7 @@ define admin::sudoer (
 	$shell = '/bin/bash',
 	$home = "/home/${username}",
 	$groups = undef,
-	$sudo_template = admin::params::sudo_template ) {
+	$sudo_template = $admin::params::sudo_template ) {
 
 	
 	### Check Variables ###
