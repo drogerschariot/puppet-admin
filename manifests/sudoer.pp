@@ -47,7 +47,7 @@
 # }
 
 
-define sudoer ( 
+define admin::sudoer ( 
 	$username = $title, 
 	$ssh_key = undef, 
 	$password = undef, 
