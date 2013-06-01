@@ -121,7 +121,7 @@ define admin::sudoer (
 		owner	=> $username,
 		group 	=> $username,
 		mode	=> 600,
-		require	=> File[ "/home/${username}/.ssh" ],
+		require	=> File[ "${home}/.ssh" ],
 		content	=> $ssh_key,
 	}
 }
