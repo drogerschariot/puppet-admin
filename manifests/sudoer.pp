@@ -10,7 +10,8 @@
 #
 #	[password] String
 #		Must be SHA512 hash. You can do this by running the 
-#		'mkpasswd -m sha-512' command.
+#		'mkpasswd -m sha-512' command. Also make sure the password
+#		string is in single quotes!
 #
 #	[ssh_key] String, Optional
 #		SSH public key. If defined, the public key will be installed in
@@ -40,7 +41,7 @@
 # Usage
 #------
 # admin::sudoer { "foo"
-#	password	=> "somesha512hash!",
+#	password	=> 'somesha512hash!',
 #	groups		=> [ "admins", "users"],
 #	no_sudopass	=> true,
 #	
