@@ -100,7 +100,7 @@ define admin::sudoer (
 		ensure 	=> present,
 	}
 
-	file { "/home/${username}/.ssh":
+	file { "${home}/.ssh":
 		ensure	=> directory,
 		owner	=> $username,
 		group 	=> $username,
@@ -116,7 +116,7 @@ define admin::sudoer (
 		group   => 'root',
 	}
 
-	file { "/home/${username}/.ssh/authorized_keys":
+	file { "${home}/.ssh/authorized_keys":
 		ensure 	=> file,
 		owner	=> $username,
 		group 	=> $username,
