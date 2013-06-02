@@ -29,3 +29,22 @@ admin::sudoer { 'foo':
 }
 </code>
 </pre>
+
+#### admin::user ####
+
+Add multiple users.
+
+<pre>
+<code>
+admin::user { 'foo':
+  ssh_key => 'somesshpubkey', # Optional 
+  password => 'somesha512hash', # Make sure hash is in single quotes!
+  uid => '555', # Optional, but should be defined
+  shell => '/bin/bash', # Optional
+  home => '/home/foo', # Optional
+  groups => ["users","admin"], # Array of groups
+}
+</code>
+</pre>
+
+
