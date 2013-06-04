@@ -1,17 +1,19 @@
 class admin::params {
-case $::operatingsystem {
-		'Ubuntu': {
-			$sudo_template = 'sudo-ubuntu.erb'
-		}
-		'Debian': {
-			$sudo_template = 'sudo-debian.erb'
-		}
-		'CentOS': {
-			$sudo_template = 'sudo-centos.erb'
-		}
-		default: {
-			fail("Cannot match your environment!")
-		}
+
+	# Get some distro specific names and packages. 
+	case $operatingsystem {
+	    'Ubuntu', 'Debian': {
+            $vim = "vim"
+            exec { "apt_update":
+                command         => "apt-get update",
+                path            => "/usr/bin:/usr/sbin:/bin:/usr/local/bin",
+                before          => Package[ 'vim', 'git', 'puppet' ],
+            }
+	    }
+	    'CentOS', 'Fedora', 'RedHat': {
+            $vim = "vim-common"
+	    }
 	}
+
 
 }

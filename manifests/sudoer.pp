@@ -34,10 +34,6 @@
 #	[groups] Array[Strings], Optional
 #		An array of groups the user will belong too.
 #
-#	[sudo_template] Template
-#		The template to use for the sudoer that will be saved to 
-#		/etc/sudoer.d . You do not need to supply your own template,
-#		but can if you want.
 # Usage
 #------
 # admin::sudoer { "foo"
