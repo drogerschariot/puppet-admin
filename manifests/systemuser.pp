@@ -39,17 +39,17 @@
 # }
 
 
-define admin::user ( 
+define admin::systemuser ( 
 	$username = $title, 
 	$ssh_key = undef, 
 	$password = undef, 
 	$uid = undef, # this really should be defined 
-	$shell = '/bin/bash',
-	$home = "/home/${username}",
+	$shell = undef,
+	$home = undef,
 	$groups = undef,
 	$system = false,
-	$mang_home = true,
-	$manages_passwords = true, 
+	$mang_home = false,
+	$manages_passwords = false, 
 	){
 
 
@@ -62,46 +62,14 @@ define admin::user (
 	### Create user ###
 
 	user { "${username}":
-		comment 	=> "${username} is a sudoer",
 		home 		=> $home,
 		ensure 		=> present,
 		shell 		=> $shell,
 		uid 		=> $uid,
-		gid			=> $username,
-		groups		=> $groups,
 		managehome	=> $mang_home,
 		password	=> $password,
-		require 	=> Group[ $username ],
-		system		=> $system,
-		manages_passwords => $manages_passwords,
+		system		=> true,
 	}
 
-	group { "${username}":
-		ensure 	=> present,
-	}
 
-	file { "${home}/.ssh":
-		ensure	=> directory,
-		owner	=> $username,
-		group 	=> $username,
-		mode	=> 700,
-		require	=> User[ $username ],
-	}
-
-	file { "/etc/sudoers.d/${username}":
-		ensure 	=> file,
-		content	=> template("admin/${sudo_template}"),
-		mode	=> 0640,
-		owner	=> 'root',
-		group   => 'root',
-	}
-
-	file { "${home}/.ssh/authorized_keys":
-		ensure 	=> file,
-		owner	=> $username,
-		group 	=> $username,
-		mode	=> 600,
-		require	=> File[ "${home}/.ssh" ],
-		content	=> $ssh_key,
-	}
 }
