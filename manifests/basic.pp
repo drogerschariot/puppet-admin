@@ -13,9 +13,9 @@
 class admin::basic {
 	
 	include admin::params
+	$vim = $admin::params::vim
 
-	package { "$vim":
+	package { $vim:
 		ensure		=> present,
-		}
 	}
 }
