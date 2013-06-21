@@ -1,7 +1,10 @@
 # Class: admin::cacti
 #
 #
-class admin::cacti {
+class admin::cacti(
+	$comm_name = 'chariot',
+	$comm_ip = '192.168.117.0/24',
+	) {
 
 	case $osfamily {
 			"Debian": {
@@ -21,7 +24,7 @@ class admin::cacti {
 		owner		=> 'root',
 		group 		=> 'root',
 		mode		=> 750,
-		source		=> 'puppet:///admin/snmp.conf',
+		content		=> template('admin/snmp.conf.erb'),
 	}
 
 	file { "/etc/default/snmpd":
