@@ -69,7 +69,7 @@ Installs [nagios plugins](http://nagiosplugins.org/) (and [NRPE](http://exchange
 class { 'admin::cacti':
    root_path => '/opt/nagios' #root path to install nagios plugins
    nrpe => true #If you want nrpe installed
-   ssllib_path => '/usr/lib/x86_64-linux-gnu/' #The apth to the SSL library
+   ssllib_path => '/usr/lib/x86_64-linux-gnu/' #The path to the SSL library
    nagios_host => "192.168.100.1" #Path to nagios host. 
 }
 </code>
