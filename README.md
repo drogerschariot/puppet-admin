@@ -47,4 +47,31 @@ admin::user { 'foo':
 </code>
 </pre>
 
+#### admin::cacti ####
+
+Setup snmp on client to communicate to a [Cacti](http://www.cacti.net/) server.
+
+<pre>
+<code>
+class { 'admin::cacti':
+   comm_name => 'public', #snmp community name
+   comm_ip => '192.168.1.0/24', #IP addess or range to allow snmp traffic
+}
+</code>
+</pre>
+
+#### admin::nagios-plugins ####
+
+Installs [nagios plugins](http://nagiosplugins.org/) (and [NRPE](http://exchange.nagios.org/directory/Addons/Monitoring-Agents/NRPE--2D-Nagios-Remote-Plugin-Executor/details)) on client.
+
+<pre>
+<code>
+class { 'admin::cacti':
+   root_path => '/opt/nagios' #root path to install nagios plugins
+   nrpe => true #If you want nrpe installed
+   ssllib_path => '/usr/lib/x86_64-linux-gnu/' #The apth to the SSL library
+   nagios_host => "192.168.100.1" #Path to nagios host. 
+}
+</code>
+</pre>
 
